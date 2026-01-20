@@ -1,8 +1,8 @@
 version: '3.8'
 services:
-  briq18-db:
+  rhean-db:
     image: postgres:16
-    container_name: briq18-db-data
+    container_name: rhean-db-data
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=odoo
@@ -12,18 +12,18 @@ services:
     volumes:
       - ${POSTGRES_DATA}:/var/lib/postgresql/data
     restart: always
-  briq18-web:
+  rhean-web:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: briq18-web-data
+    container_name: rhean-web-data
     depends_on:
-      - briq18-db
+      - rhean-db
     ports:
-      - "18088:8069"
-      - "18087:8072"
+      - "18188:8069"
+      - "18187:8072"
     volumes:
-      - ./odoo.conf:/etc/odoo/odoo.conf
+      - ./configs/rhean.conf:/etc/odoo/odoo.conf
       - ./data/odoo/addons:/mnt/extra-addons
       - ${BRIQ_VAR_LIB}:/var/lib/odoo
       - ${BRIQ_SRC}/briq_erp:/mnt/briq_erp
@@ -31,5 +31,5 @@ services:
     restart: always
 
 volumes:
-  briq18-db-data:
-  briq18-web-data:
+  rhean-db-data:
+  rhean-web-data:
