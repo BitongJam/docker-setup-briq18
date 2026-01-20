@@ -1,0 +1,44 @@
+# --------------------
+# Environment files
+# --------------------
+.env
+.env.*
+!.env.example
+
+# --------------------
+# Docker local data / volumes
+# --------------------
+data/
+db-data/
+postgres-data/
+mysql-data/
+mongo-data/
+redis-data/
+volumes/
+docker-data/
+database/
+
+# --------------------
+# Logs & temp files
+# --------------------
+logs/
+*.log
+tmp/
+cache/
+
+# --------------------
+# Docker Compose local overrides
+# --------------------
+docker-compose.override.yml
+docker-compose.local.yml
+docker-compose.dev.yml
+
+# --------------------
+# OS & editor files
+# --------------------
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo

@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  briq18-db:
+    image: postgres:16
+    container_name: briq18-db-data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=odoo
+      - POSTGRES_PASSWORD=digipg@dm1n
+    ports:
+      - "6433:5432"
+    volumes:
+      - ${POSTGRES_DATA}:/var/lib/postgresql/data
+    restart: always
+  briq18-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: briq18-web-data
+    depends_on:
+      - briq18-db
+    ports:
+      - "18088:8069"
+      - "18087:8072"
+    volumes:
+      - ./odoo.conf:/etc/odoo/odoo.conf
+      - ./data/odoo/addons:/mnt/extra-addons
+      - ${BRIQ_VAR_LIB}:/var/lib/odoo
+      - ${BRIQ_SRC}/briq_erp:/mnt/briq_erp
+      - ${BRIQ_SRC}/rhean:/mnt/rhean
+    restart: always
+
+volumes:
+  briq18-db-data:
+  briq18-web-data:
