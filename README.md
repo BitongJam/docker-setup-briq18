@@ -171,20 +171,67 @@ http://localhost:18088
 
 Create or log in to the Odoo database.
 
----
+9️⃣ Backup and Restore Docker Volumes
 
-## ✅ Summary Flow
+It is highly recommended to regularly backup your Odoo and PostgreSQL volumes to prevent data loss.
 
-1. Copy `.env.sample` → `.env`
-2. Create `data/` folders
-3. Configure `.env`
-4. Create client folder inside `data/clients`
-5. Clone Briq ERP repo
-6. Add client-specific modules
-7. Copy & rename docker-compose per client
-8. Update volume paths
-9. Run Docker compose
+A. Backup Volumes
 
----
+Run the following commands from your project root:
 
-Your client-based Odoo Docker setup is now ready.
+# Backup Odoo filestore
+docker run --rm -v ${BRIQ_VAR_LIB}:/data -v $(pwd):/backup alpine \
+    tar czf /backup/odoo_filestore_backup.tar.gz -C /data .
+
+# Backup PostgreSQL data
+docker run --rm -v ${POSTGRES_DATA}:/data -v $(pwd):/backup alpine \
+    tar czf /backup/postgres_backup.tar.gz -C /data .
+
+
+Creates compressed .tar.gz files in your project root.
+
+Store backups safely outside Docker.
+
+B. Restore Volumes
+
+To restore from a backup:
+
+# Restore Odoo filestore
+docker run --rm -v ${BRIQ_VAR_LIB}:/data -v $(pwd):/backup alpine \
+    tar xzf /backup/odoo_filestore_backup.tar.gz -C /data
+
+# Restore PostgreSQL data
+docker run --rm -v ${POSTGRES_DATA}:/data -v $(pwd):/backup alpine \
+    tar xzf /backup/postgres_backup.tar.gz -C /data
+
+
+Ensure the containers are stopped before restoring.
+
+After restoring, start your client containers again:
+
+docker compose -f docker-compose-client_a.yml up -d
+
+
+⚠️ Tip: Always backup before upgrading Odoo, modules, or performing major database operations.
+
+✅ Summary Flow
+
+Copy .env.sample → .env
+
+Create data/ folders
+
+Configure .env
+
+Create client folder inside data/clients
+
+Clone Briq ERP repo
+
+Add client-specific modules
+
+Copy & rename docker-compose per client
+
+Update volume paths
+
+Run Docker compose
+
+Backup volumes regularly
