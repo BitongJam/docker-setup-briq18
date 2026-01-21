@@ -10,7 +10,7 @@ services:
     ports:
       - "6433:5432"
     volumes:
-      - ${POSTGRES_DATA}:/var/lib/postgresql/data
+      - rhean-db-data:/var/lib/postgresql/data
     restart: always
   rhean-web:
     build:
@@ -23,9 +23,9 @@ services:
       - "18188:8069"
       - "18187:8072"
     volumes:
-      - ./configs/rhean.conf:/etc/odoo/odoo.conf
+      - ./configs/rhean.conf:/etc/odoo/odoo.conf:ro 
       - ./data/odoo/addons:/mnt/extra-addons
-      - ${BRIQ_VAR_LIB}:/var/lib/odoo
+      - rhean-web-data:/var/lib/odoo
       - ${BRIQ_SRC}/briq_erp:/mnt/briq_erp
       - ${BRIQ_SRC}/rhean:/mnt/rhean
     restart: always

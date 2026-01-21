@@ -10,7 +10,7 @@ services:
     ports:
       - "6433:5432"
     volumes:
-      - ${POSTGRES_DATA}:/var/lib/postgresql/data
+      - briq18-db-data:/var/lib/postgresql/data
     restart: always
   briq18-web:
     build:
@@ -23,9 +23,9 @@ services:
       - "18088:8069"
       - "18087:8072"
     volumes:
-      - ./odoo.conf:/etc/odoo/odoo.conf
+      - ./odoo.conf:/etc/odoo/odoo.conf:ro
       - ./data/odoo/addons:/mnt/extra-addons
-      - ${BRIQ_VAR_LIB}:/var/lib/odoo
+      - briq18-web-data:/var/lib/odoo
       - ${BRIQ_SRC}/briq_erp:/mnt/briq_erp
       - ${BRIQ_SRC}/rhean:/mnt/rhean
     restart: always
