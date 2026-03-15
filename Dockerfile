@@ -18,6 +18,6 @@ RUN apt-get update && \
 # Install Python packages system-wide
 RUN pip install --break-system-packages \
         psycopg2-binary \
-        qifparse
+        qifparse \ jsonschema
 
 USER odoo
